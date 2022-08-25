@@ -5,7 +5,7 @@ interface Props {
 function App (props: Props) {
 	const { content } = props
 	return (
-		<>{content}</>
+		<div className="container">{content}</div>
 	)
 }
 
