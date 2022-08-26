@@ -1,0 +1,7 @@
+.bg {
+	background-image: url('/public/assets/home-bg.png');
+	background-position: top center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	margin-top: 50px;
+}

@@ -21,7 +21,9 @@ module.exports = {
 		'no-tabs': 'off',
 		'comma-dangle': 'off',
 		'quote-props': 'off',
+		'space-before-function-paren': 'off',
 		'@typescript-eslint/indent': 'off',
-		'@typescript-eslint/explicit-function-return-type': 'off'
+		'@typescript-eslint/explicit-function-return-type': 'off',
+		'@typescript-eslint/space-before-function-paren': 'off'
 	},
 }

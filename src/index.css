@@ -1,7 +1,17 @@
-div {
-	color: #123123
+html {
+	background: #121212;
+	color: #ffffff;
 }
 
-.container {
-	display: flex;
+body {
+	overflow-y: auto;
+}
+
+/* menu */
+nav .nav-link {
+	color: #ffffff;
+}
+
+nav .nav-link:focus {
+	color: #ffffff;
 }
