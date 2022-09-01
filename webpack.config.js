@@ -28,7 +28,7 @@ module.exports = function () {
 					}],
 				},
 				{
-					test: /\.css$/i,
+					test: /\.less$/i,
 					use: [
 						isProductionMode ? MiniCssExtractPlugin.loader : 'style-loader',
 						'css-loader',
@@ -47,6 +47,7 @@ module.exports = function () {
 								},
 							},
 						},
+						'less-loader'
 					],
 				},
 			],
@@ -60,6 +61,10 @@ module.exports = function () {
 			})
 		],
 		resolve: {
+			alias: {
+				'@utils': path.resolve(__dirname, './src/utils'),
+				'components': path.resolve(__dirname, './src/components'),
+			},
 			extensions: ['.js', '.jsx', '.ts', '.tsx'],
 		},
 	}
