@@ -1,5 +1,5 @@
-const preUrl = 'http://124.221.175.44:3000'
-// const preUrl = 'http://localhost:3000'
+// const preUrl = 'http://124.221.175.44:3000'
+const preUrl = 'http://localhost:3000'
 
 interface Response {
 	ok: boolean
@@ -7,6 +7,7 @@ interface Response {
 	errMsg: string
 	access_token?: string
 	message?: string
+	account?: string
 }
 
 async function request(url: string, options?: RequestInit): Promise<Response> {

@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { setUserState } from '../../states/userState'
 import styles from './index.module.less'
 import { login } from './service'
 
@@ -8,6 +10,9 @@ function Login() {
 	const [account, setAccount] = useState<string>()
 	const [password, setPassword] = useState<string>()
 	const [validated, setValidated] = useState(false)
+
+	const dispatch = useDispatch()
+
 	const navigate = useNavigate()
 
 	const back = () => navigate('/')
@@ -16,14 +21,14 @@ function Login() {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		const form = e.currentTarget
-		if (form.checkValidity()) {
+		if (form.checkValidity() && account) {
 			login({
 				account: account ?? '',
 				password: password ?? ''
 			}).then(res => {
-				console.log(res)
 				if (res.access_token) {
-					window.sessionStorage.setItem('access_token', res.access_token)
+					sessionStorage.setItem('access_token', res.access_token)
+					dispatch(setUserState({ isLogin: true, account }))
 					navigate('/')
 				} else {
 					alert(res.message)

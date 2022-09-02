@@ -1,11 +1,17 @@
+import { useEffect } from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
 import { Routes, Route, Link, Outlet } from 'react-router-dom'
 import Dashboard from './pages/dashboard'
 import Home from './pages/home'
 import Login from './pages/user/Login'
 import Registry from './pages/user/Registry'
+import { setUserState } from './states/userState'
+import { RootState } from './store'
+import { get } from './utils/request'
 
 function Menu() {
+	const { isLogin, account } = useSelector((state: RootState) => state.userState)
 	return (
 		<>
 			<Navbar bg="dark" sticky="top">
@@ -20,7 +26,7 @@ function Menu() {
 							<Nav.Link as={Link} to="/dashboard">DASHBOARD</Nav.Link>
 						</Nav>
 						<Nav>
-							<Nav.Link as={Link} to="/login">LOGIN</Nav.Link>
+							{isLogin ? <Nav style={{ color: '#FFFFFF' }}>{account}</Nav> : <Nav.Link as={Link} to="/login">LOGIN</Nav.Link>}
 						</Nav>
 					</Navbar.Collapse>
 				</Container>
@@ -30,9 +36,22 @@ function Menu() {
 	)
 }
 
+const getProfile = async () => await get('/user/profile')
+
 export default function App() {
+	const dispatch = useDispatch()
+	useEffect(() => {
+		getProfile().then(res => {
+			if (res.account) {
+				dispatch(setUserState({ isLogin: true, account: res.account }))
+			} else {
+				dispatch(setUserState({ isLogin: false }))
+			}
+		}).catch(err => console.log(err))
+	}, [])
+
 	return (
-		<div>
+		<>
 			<Routes>
 				<Route element={<Menu />}>
 					<Route path='/' element={<Home />} />
@@ -42,6 +61,6 @@ export default function App() {
 				<Route path='/registry' element={<Registry />} />
 			</Routes>
 			<Outlet />
-		</div>
+		</>
 	)
 }
