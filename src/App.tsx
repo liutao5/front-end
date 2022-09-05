@@ -9,6 +9,7 @@ import Registry from './pages/user/Registry'
 import { setUserState } from './states/userState'
 import { RootState } from './store'
 import { get } from './utils/request'
+import Github from './icons/github.svg'
 
 function Menu() {
 	const { isLogin, account } = useSelector((state: RootState) => state.userState)
@@ -27,6 +28,7 @@ function Menu() {
 						</Nav>
 						<Nav>
 							{isLogin ? <Nav style={{ color: '#FFFFFF' }}>{account}</Nav> : <Nav.Link as={Link} to="/login">LOGIN</Nav.Link>}
+							<a className="nav-link" href="https://github.com/liutao5/front-end"><Github /></a>
 						</Nav>
 					</Navbar.Collapse>
 				</Container>
@@ -51,7 +53,7 @@ export default function App() {
 	}, [])
 
 	return (
-		<>
+		<div>
 			<Routes>
 				<Route element={<Menu />}>
 					<Route path='/' element={<Home />} />
@@ -60,7 +62,6 @@ export default function App() {
 				<Route path='/login' element={<Login />} />
 				<Route path='/registry' element={<Registry />} />
 			</Routes>
-			<Outlet />
-		</>
+		</div>
 	)
 }

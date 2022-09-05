@@ -50,6 +50,10 @@ module.exports = function () {
 						'less-loader'
 					],
 				},
+				{
+					test: /\.svg$/i,
+					use: ['@svgr/webpack']
+				}
 			],
 		},
 		plugins: [

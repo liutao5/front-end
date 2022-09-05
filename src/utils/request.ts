@@ -15,7 +15,7 @@ async function request(url: string, options?: RequestInit): Promise<Response> {
 	return await fetch(url, {
 		headers: {
 			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${accessToken ?? ''}`
+			'Authorization': accessToken ? `Bearer ${accessToken}` : ''
 		},
 		...options,
 	}).then(async res => {
