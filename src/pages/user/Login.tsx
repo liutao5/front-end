@@ -34,7 +34,6 @@ function Login() {
 					alert(res.message)
 				}
 			})
-				.catch(err => console.log(err))
 		}
 		setValidated(true)
 		e.preventDefault()
@@ -56,7 +55,7 @@ function Login() {
 						<Form.Control required type="password" onChange={e => setPassword(e.target.value)} placeholder="Password" />
 						<Form.Control.Feedback type='invalid'>please input password</Form.Control.Feedback>
 					</Form.Group>
-					<Button type="submit">submit</Button>
+					<Button type="submit">login</Button>
 					<div style={{ display: 'flex', justifyContent: 'space-between' }}>
 						<Button variant="link" onClick={back}>home</Button>
 						<Button variant="link" onClick={toRegistry}>registry</Button>

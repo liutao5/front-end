@@ -25,14 +25,15 @@ module.exports = {
 		'@typescript-eslint/indent': 'off',
 		'@typescript-eslint/explicit-function-return-type': 'off',
 		'@typescript-eslint/space-before-function-paren': 'off',
-		'@typescript-eslint/strict-boolean-expressions': 'off'
+		'@typescript-eslint/strict-boolean-expressions': 'off',
+		'@typescript-eslint/no-floating-promises': 'off'
 	},
 	settings: {
 		'import/resolver': {
 			alias: {
 				map: [
 					['@utils', './src/utils'],
-					['components', './src/components']
+					['@components', './src/components']
 				],
 				extensions: ['.ts']
 			}

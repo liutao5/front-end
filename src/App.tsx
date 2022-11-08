@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { Routes, Route, Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Dashboard from './pages/dashboard'
 import Home from './pages/home'
 import Login from './pages/user/Login'
@@ -10,6 +10,11 @@ import { setUserState } from './states/userState'
 import { RootState } from './store'
 import { get } from './utils/request'
 import Github from './icons/github.svg'
+import Music from './pages/music'
+import Singer from './pages/music/singer'
+import ErrorPage from './errorPage'
+import Recommend from './pages/music/recommend'
+import SingerList from './pages/music/singerList'
 
 function Menu() {
 	const { isLogin, account } = useSelector((state: RootState) => state.userState)
@@ -25,9 +30,10 @@ function Menu() {
 						<Nav>
 							<Nav.Link as={Link} to="/">HOME</Nav.Link>
 							<Nav.Link as={Link} to="/dashboard">DASHBOARD</Nav.Link>
+							<Nav.Link as={Link} to="/music">MUSIC</Nav.Link>
 						</Nav>
 						<Nav>
-							{isLogin ? <Nav style={{ color: '#FFFFFF' }}>{account}</Nav> : <Nav.Link as={Link} to="/login">LOGIN</Nav.Link>}
+							{isLogin ? <Nav style={{ cursor: 'pointer' }}><span className="nav-link">{account}</span></Nav> : <Nav.Link as={Link} to="/login">LOGIN</Nav.Link>}
 							<a className="nav-link" href="https://github.com/liutao5/front-end"><Github /></a>
 						</Nav>
 					</Navbar.Collapse>
@@ -52,16 +58,46 @@ export default function App() {
 		}).catch(err => console.log(err))
 	}, [])
 
+	const router = createBrowserRouter([
+		{
+			path: '/',
+			element: <Menu />,
+			errorElement: <ErrorPage />,
+			children: [
+				{
+					index: true,
+					element: <Home />
+				}, {
+					path: 'dashboard',
+					element: <Dashboard />
+				}, {
+					path: 'music',
+					element: <Music />,
+					children: [
+						{
+							index: true,
+							path: 'recommend',
+							element: <Recommend />
+						}, {
+							path: 'singer/:singerId',
+							element: <Singer />
+						}, {
+							path: 'singerList',
+							element: <SingerList />
+						}
+					]
+				}, {
+					path: 'login',
+					element: <Login />
+				}, {
+					path: 'registry',
+					element: <Registry />
+				}
+			]
+		}
+	])
+
 	return (
-		<div>
-			<Routes>
-				<Route element={<Menu />}>
-					<Route path='/' element={<Home />} />
-					<Route path='/dashboard' element={<Dashboard />} />
-				</Route>
-				<Route path='/login' element={<Login />} />
-				<Route path='/registry' element={<Registry />} />
-			</Routes>
-		</div>
+		<RouterProvider router={router} />
 	)
 }

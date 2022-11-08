@@ -9,6 +9,7 @@ module.exports = function () {
 		output: {
 			clean: true,
 			filename: 'static/js/[name].[contenthash:8].js',
+			publicPath: '/'
 		},
 		devtool: 'inline-source-map',
 		module: {
@@ -67,7 +68,7 @@ module.exports = function () {
 		resolve: {
 			alias: {
 				'@utils': path.resolve(__dirname, './src/utils'),
-				'components': path.resolve(__dirname, './src/components'),
+				'@components': path.resolve(__dirname, './src/components'),
 			},
 			extensions: ['.js', '.jsx', '.ts', '.tsx'],
 		},

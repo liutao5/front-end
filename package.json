@@ -5,17 +5,19 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --node-env production",
-    "start": "webpack serve --node-env development"
+    "start": "webpack serve --node-env development --history-api-fallback"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
+    "antd": "^4.24.1",
     "bootstrap": "^5.2.0",
     "bootstrap-icons": "^1.9.1",
+    "d3": "^7.6.1",
     "react": "^18.2.0",
     "react-bootstrap": "^1.6.6",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.18.13",

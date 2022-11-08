@@ -57,7 +57,7 @@ export default function Registry() {
 					accountRef.current?.setCustomValidity('error')
 					setAccountMsg(res.errMsg)
 				}
-			}).catch(err => console.log(err))
+			})
 		}
 		setValidated(true)
 		e.preventDefault()
