@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Button, Form } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setUserState } from '../../states/userState'
@@ -43,7 +42,7 @@ function Login() {
 	return (
 		<section className={styles.bg}>
 			<div className={styles.container}>
-				<Form className={styles.form} noValidate validated={validated} onSubmit={handleSubmit}>
+				{/* <Form className={styles.form} noValidate validated={validated} onSubmit={handleSubmit}>
 					<h2>Login</h2>
 					<Form.Group className="mb-3" controlId="account">
 						<Form.Label>Account</Form.Label>
@@ -60,7 +59,7 @@ function Login() {
 						<Button variant="link" onClick={back}>home</Button>
 						<Button variant="link" onClick={toRegistry}>registry</Button>
 					</div>
-				</Form>
+				</Form> */}
 			</div>
 		</section>
 	)

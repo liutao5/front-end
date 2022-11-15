@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { Container, Nav, Navbar } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, Outlet, createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Dashboard from './pages/dashboard'
@@ -9,38 +8,42 @@ import Registry from './pages/user/Registry'
 import { setUserState } from './states/userState'
 import { RootState } from './store'
 import { get } from './utils/request'
-import Github from './icons/github.svg'
 import Music from './pages/music'
 import Singer from './pages/music/singer'
 import ErrorPage from './errorPage'
 import Recommend from './pages/music/recommend'
-import SingerList from './pages/music/singerList'
+import { Layout, Menu, Space } from 'antd'
+import { GithubOutlined } from '@ant-design/icons'
+import Artist from './pages/music/artist'
 
-function Menu() {
+const { Header } = Layout
+
+function IndexLayout() {
 	const { isLogin, account } = useSelector((state: RootState) => state.userState)
+	const menuItems = [{
+		key: 'home',
+		label: <Link to="/">HOME</Link>,
+	}, {
+		key: 'dashboard',
+		label: <Link to="dashboard">DASHBOARD</Link>,
+	}, {
+		key: 'music',
+		label: <Link to="music">MUSIC</Link>,
+	}]
 	return (
-		<>
-			<Navbar bg="dark" sticky="top">
-				<Container>
-					<Navbar.Brand as={Link} to="/">
-						LOGO
-					</Navbar.Brand>
-					<Navbar.Toggle aria-controls="navbar" />
-					<Navbar.Collapse id="navbar" style={{ display: 'flex', justifyContent: 'space-between' }}>
-						<Nav>
-							<Nav.Link as={Link} to="/">HOME</Nav.Link>
-							<Nav.Link as={Link} to="/dashboard">DASHBOARD</Nav.Link>
-							<Nav.Link as={Link} to="/music">MUSIC</Nav.Link>
-						</Nav>
-						<Nav>
-							{isLogin ? <Nav style={{ cursor: 'pointer' }}><span className="nav-link">{account}</span></Nav> : <Nav.Link as={Link} to="/login">LOGIN</Nav.Link>}
-							<a className="nav-link" href="https://github.com/liutao5/front-end"><Github /></a>
-						</Nav>
-					</Navbar.Collapse>
-				</Container>
-			</Navbar>
-			<Outlet />
-		</>
+		<Layout style={{ height: '100%' }}>
+			<Header style={{ display: 'flex', position: 'sticky', top: 0, zIndex: 9 }}>
+				<div style={{ color: '#ffffff' }}>logo</div>
+				<Menu style={{ flexGrow: 1 }} mode="horizontal" items={menuItems} theme="dark"></Menu>
+				<Space style={{ color: '#ffffff' }}>
+					{isLogin ? <a>{account}</a> : <Link to="/login">LOGIN</Link>}
+					<a href="https://github.com/liutao5/front-end" target="_blank" rel="noreferrer"><GithubOutlined /></a>
+				</Space>
+			</Header>
+			<Layout>
+				<Outlet />
+			</Layout>
+		</Layout>
 	)
 }
 
@@ -58,44 +61,41 @@ export default function App() {
 		}).catch(err => console.log(err))
 	}, [])
 
-	const router = createBrowserRouter([
-		{
-			path: '/',
-			element: <Menu />,
-			errorElement: <ErrorPage />,
-			children: [
-				{
-					index: true,
-					element: <Home />
-				}, {
-					path: 'dashboard',
-					element: <Dashboard />
-				}, {
-					path: 'music',
-					element: <Music />,
-					children: [
-						{
-							index: true,
-							path: 'recommend',
-							element: <Recommend />
-						}, {
-							path: 'singer/:singerId',
-							element: <Singer />
-						}, {
-							path: 'singerList',
-							element: <SingerList />
-						}
-					]
-				}, {
-					path: 'login',
-					element: <Login />
-				}, {
-					path: 'registry',
-					element: <Registry />
-				}
-			]
-		}
-	])
+	const router = createBrowserRouter([{
+		path: '/',
+		element: <IndexLayout />,
+		errorElement: <ErrorPage />,
+		children: [
+			{
+				index: true,
+				element: <Home />
+			}, {
+				path: 'dashboard',
+				element: <Dashboard />
+			}, {
+				path: 'music',
+				element: <Music />,
+				children: [
+					{
+						index: true,
+						element: <Recommend />
+					}, {
+						path: 'singer/:singerId',
+						element: <Singer />
+					}, {
+						path: 'artist',
+						element: <Artist />
+					}
+				]
+			}, {
+				path: 'login',
+				element: <Login />
+			}, {
+				path: 'registry',
+				element: <Registry />
+			}
+		]
+	}])
 
 	return (
 		<RouterProvider router={router} />

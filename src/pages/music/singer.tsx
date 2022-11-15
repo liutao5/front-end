@@ -1,44 +1,62 @@
-import { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { CaretRightOutlined } from '@ant-design/icons'
+import { Breadcrumb, Table } from 'antd'
+import { useContext, useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { PlayerContext } from '.'
-import { getArtSong, playMusic } from './service'
+import { getArtSong } from './service'
 
 interface Song {
 	name: string
 	id: number
+	album: string
 }
 
 function Singer() {
 	const { singerId } = useParams()
+	const navigate = useNavigate()
 	const [songList, setSongList] = useState<Song[]>([])
+	const setSongId = useContext(PlayerContext)
 
 	useEffect(() => {
-		getArtSong(singerId).then(res => {
-			if (res.code === 200) {
-				setSongList(res.songs)
-			}
-		})
+		if (singerId) {
+			getArtSong(singerId).then(res => {
+				if (res.code === 200) {
+					console.log(res)
+					setSongList(res.songs.map(item => ({
+						name: item.name,
+						id: item.id,
+						album: item.al.name
+					})))
+				}
+			})
+		}
 	}, [])
 
-	const select = (player: HTMLAudioElement, songId: number) => {
-		playMusic(songId).then(res => {
-			console.log(res)
-			player.src = res.data[0].url
-		})
-	}
+	const columns = [{
+		title: '',
+		width: 100,
+		render: (value: any) => (
+			<CaretRightOutlined onClick={() => setSongId(value.id)} />
+		)
+	}, {
+		title: '歌曲名',
+		dataIndex: 'name',
+	}, {
+		title: '专辑',
+		dataIndex: 'album',
+	}]
 
 	return (
-		<PlayerContext.Consumer>
-			{(player: HTMLAudioElement) => (
-				<>
-					<ul>
-						{songList.map(song => (
-							<li key={song.id} onClick={() => select(player, song.id)}>{song.name}</li>
-						))}
-					</ul>
-				</>
-			)}
-		</PlayerContext.Consumer>
+		<div style={{ padding: 32 }}>
+			<Breadcrumb>
+				<Breadcrumb.Item onClick={() => navigate('/music/artist')}><a>返回</a></Breadcrumb.Item>
+			</Breadcrumb>
+			<Table
+				columns={columns}
+				dataSource={songList}
+				rowKey="id"
+			/>
+		</div>
 	)
 }
 

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { Button, Form } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import styles from './index.module.less'
 import { registry } from './service'
@@ -67,7 +66,7 @@ export default function Registry() {
 	return (
 		<section className={styles.bg}>
 			<div className={styles.container}>
-				<Form className={styles.form} noValidate validated={validated} onSubmit={handleSubmit}>
+				{/* <Form className={styles.form} noValidate validated={validated} onSubmit={handleSubmit}>
 					<h2>Registry</h2>
 					<Form.Group className="mb-3" controlId="account">
 						<Form.Label>Account</Form.Label>
@@ -89,7 +88,7 @@ export default function Registry() {
 						<Button variant="link" onClick={back}>home</Button>
 						<Button variant="link" onClick={toLogin}>login</Button>
 					</div>
-				</Form>
+				</Form> */}
 			</div>
 		</section>
 	)
